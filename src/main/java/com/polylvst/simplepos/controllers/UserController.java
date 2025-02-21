@@ -1,12 +1,13 @@
 package com.polylvst.simplepos.controllers;
 
-import com.polylvst.simplepos.domain.dtos.CreateUser;
+import com.polylvst.simplepos.domain.dtos.CreateUserRequest;
 import com.polylvst.simplepos.domain.dtos.UserDto;
 import com.polylvst.simplepos.domain.entities.User;
 import com.polylvst.simplepos.mappers.UserMapper;
 import com.polylvst.simplepos.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +33,13 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(
             @Valid
             @RequestBody
-            CreateUser createUser
+            CreateUserRequest createUserRequest
     ) {
-        User user = userMapper.fromCreateUser(createUser);
+        User userToCreate = userMapper.toEntity(createUserRequest);
+        User savedUser = userService.createUser(userToCreate);
+        return new ResponseEntity<>(
+                userMapper.toDto(savedUser),
+                HttpStatus.CREATED
+        );
     }
 }

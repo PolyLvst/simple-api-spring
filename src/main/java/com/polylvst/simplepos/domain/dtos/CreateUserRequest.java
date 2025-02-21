@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUser {
+public class CreateUserRequest {
 
     @NotBlank(message = "username is required")
     private String username;

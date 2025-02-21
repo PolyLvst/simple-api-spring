@@ -1,5 +1,6 @@
 package com.polylvst.simplepos.services.impl;
 
+import com.polylvst.simplepos.domain.Role;
 import com.polylvst.simplepos.domain.entities.User;
 import com.polylvst.simplepos.repositories.UserRepository;
 import com.polylvst.simplepos.services.UserService;
@@ -23,8 +24,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User createUser(User user) {
-//        TODO
-//        return userRepository.save();
-        return null;
+        boolean isExist = userRepository.existsByUsernameIgnoreCase(user.getUsername());
+        if (isExist) {
+            throw new IllegalArgumentException("Username already existed with name : "+ user.getUsername());
+        }
+        user.setActive(false);
+        user.setRole(Role.KASIR);
+        return userRepository.save(user);
     }
 }
