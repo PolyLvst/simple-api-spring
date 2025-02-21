@@ -1,3 +1,6 @@
+jwt:
+  secret: "21f67da1ea99bfd08525a8348c63d1ef365f2aeebd59a3f81639220550f20e6e"
+
 spring:
 
   application:

@@ -25,10 +25,10 @@ public class AuthController {
                 loginRequest.getPassword()
         );
         String tokenValue = authenticationService.generateToken(userDetails);
-        long expiresInMiliseconds = 86400;
+        long expiresInSeconds = 86400;
         AuthResponse authResponse = AuthResponse.builder()
                 .token(tokenValue)
-                .expiresIn(expiresInMiliseconds)
+                .expiresIn(expiresInSeconds)
                 .build();
         return ResponseEntity.ok(authResponse);
     }
