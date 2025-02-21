@@ -6,13 +6,17 @@ Endpoint Prefix
 Method	Endpoint	                Deskripsi	                                Akses
 GET     /users                      List user                                   Admin
 POST	/users/register	            Registrasi user (kasir)	                    Public
-POST	/users/login	            Login user	                                Public
 POST	/users/activate/{userId}	Aktivasi user kasir	                        Admin
+
+POST	/auth/login	                Login user	                                Public
+
 GET	    /products	                List produk	                                Admin & Kasir
 POST	/products	                Tambah produk	                            Admin
 PUT	    /products/{id}	            Edit produk	                                Admin
 DELETE	/products/{id}	            Hapus produk	                            Admin
+
 POST	/transactions	            Buat transaksi penjualan	                Admin & Kasir
 GET	    /transactions/{id}	        Detail transaksi	                        Admin & Kasir
 POST	/transactions/{id}/refund	Refund transaksi	                        Admin
+
 GET	    /reports	                Laporan transaksi (dengan filter tanggal)	Admin & Kasir
