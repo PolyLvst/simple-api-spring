@@ -15,8 +15,6 @@ POST	/products	                Tambah produk	                            Admin
 PUT	    /products/{id}	            Edit produk	                                Admin
 DELETE	/products/{id}	            Hapus produk	                            Admin
 
+GET	    /transactions/reports	    Laporan transaksi (dengan filter tanggal)	Admin & Kasir
 POST	/transactions	            Buat transaksi penjualan	                Admin & Kasir
-GET	    /transactions/{id}	        Detail transaksi	                        Admin & Kasir
 POST	/transactions/{id}/refund	Refund transaksi	                        Admin
-
-GET	    /reports	                Laporan transaksi (dengan filter tanggal)	Admin & Kasir
