@@ -38,12 +38,12 @@ public class Product {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    private String createdBy;
+    private UUID createdBy;
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    private String updatedBy;
+    private UUID updatedBy;
 
     @Override
     public boolean equals(Object o) {

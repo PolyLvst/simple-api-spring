@@ -46,17 +46,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").authenticated()
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/products/**").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").authenticated()
                         
-                        .requestMatchers(HttpMethod.GET, "/api/v1/transactions/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/transactions/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/transactions/**").authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->

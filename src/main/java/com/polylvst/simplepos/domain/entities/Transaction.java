@@ -40,7 +40,7 @@ public class Transaction {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    private String createdBy;
+    private UUID createdBy;
 
     @Override
     public boolean equals(Object o) {

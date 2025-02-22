@@ -17,8 +17,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TransactionDto {
     private UUID id;
-    private String cashier;
-    private String product;
+    private UserDto cashier;
+    private ProductDto product;
     private Integer quantity;
     private BigDecimal totalPrice;
     private boolean isRefunded;
