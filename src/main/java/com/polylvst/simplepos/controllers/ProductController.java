@@ -1,13 +1,15 @@
 package com.polylvst.simplepos.controllers;
 
+import com.polylvst.simplepos.domain.dtos.CreateProductRequest;
 import com.polylvst.simplepos.domain.dtos.ProductDto;
+import com.polylvst.simplepos.domain.entities.Product;
 import com.polylvst.simplepos.mappers.ProductMapper;
 import com.polylvst.simplepos.services.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +28,18 @@ public class ProductController {
                 .map(product -> productMapper.toDto(product))
                 .toList();
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDto> createProduct(
+            @Valid
+            @RequestBody
+            CreateProductRequest createProductRequest) {
+        Product productToCreate = productMapper.toEntity(createProductRequest);
+        Product savedProduct = productService.createProduct(productToCreate);
+        return new ResponseEntity<>(
+                productMapper.toDto(savedProduct),
+                HttpStatus.CREATED
+        );
     }
 }
