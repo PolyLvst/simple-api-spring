@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,11 @@ public class TransactionController {
     private final TransactionMapper transactionMapper;
 
     @GetMapping("/reports")
-    public ResponseEntity<List<TransactionDto>> listTransactions() {
+    public ResponseEntity<List<TransactionDto>> listTransactions(
+//            @RequestParam(value = "start", required = false) LocalDateTime start,
+//            @RequestParam(value = "end", required = false) LocalDateTime end
+    ) {
+//        List<TransactionDto> transactions = transactionService.listTransactions(start, end)
         List<TransactionDto> transactions = transactionService.listTransactions()
                 .stream()
                 .map(transaction -> transactionMapper.toDto(transaction))
