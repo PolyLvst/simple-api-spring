@@ -1,7 +1,5 @@
 package com.polylvst.simplepos.domain.dtos;
 
-import com.polylvst.simplepos.domain.entities.Product;
-import com.polylvst.simplepos.domain.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
