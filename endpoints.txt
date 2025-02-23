@@ -7,6 +7,7 @@ Method	Endpoint	                Deskripsi	                                Akses
 GET     /users                      List user                                   Admin
 POST	/users/register	            Registrasi user (kasir)	                    Public
 POST	/users/activate/{userId}	Aktivasi user kasir	                        Admin
+DELETE 	/users/{userId}         	Hapus user   	                            Admin
 
 POST	/auth/login	                Login user	                                Public
 

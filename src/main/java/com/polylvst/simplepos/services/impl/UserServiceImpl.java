@@ -51,4 +51,9 @@ public class UserServiceImpl implements UserService {
         userRepository.save(activatedUser);
         return activatedUser;
     }
+
+    @Override
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
+    }
 }

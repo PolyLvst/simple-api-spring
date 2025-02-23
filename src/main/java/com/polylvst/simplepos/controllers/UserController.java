@@ -56,4 +56,15 @@ public class UserController {
                 HttpStatus.OK
         );
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable
+            UUID id
+    ) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(
+                HttpStatus.NO_CONTENT
+        );
+    }
 }
