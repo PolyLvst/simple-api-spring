@@ -35,7 +35,7 @@ public class SecurityConfig {
                     .username("admin")
                     .password(passwordEncoder().encode("admin"))
                     .role(Role.ADMIN)
-                    .isActive(true)
+                    .active(true)
                     .build();
             return userRepository.save(newUser);
         });
@@ -44,21 +44,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        String ROLE_ADMIN = "ADMIN";
+        String ROLE_KASIR = "KASIR";
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users/**").hasRole(ROLE_ADMIN)
 
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/products/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**").hasAnyRole(ROLE_ADMIN, ROLE_KASIR)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasRole(ROLE_ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasRole(ROLE_ADMIN)
                         
-                        .requestMatchers(HttpMethod.GET, "/api/v1/transactions/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/transactions/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/transactions/**").hasAnyRole(ROLE_ADMIN, ROLE_KASIR)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/transactions/**").hasAnyRole(ROLE_ADMIN, ROLE_KASIR)
                 )
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->

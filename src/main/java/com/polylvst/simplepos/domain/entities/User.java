@@ -26,7 +26,8 @@ public class User {
     @OneToMany(mappedBy = "cashier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
 
-    private boolean isActive;
+    @Column(nullable = false)
+    private boolean active;
 
     @Column(nullable = false, unique = true)
     private String username;

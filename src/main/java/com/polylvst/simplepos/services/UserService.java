@@ -9,4 +9,5 @@ public interface UserService {
     List<User> listUsers();
     User createUser(User user);
     User findUserById(UUID id);
+    User activateUser(UUID id);
 }

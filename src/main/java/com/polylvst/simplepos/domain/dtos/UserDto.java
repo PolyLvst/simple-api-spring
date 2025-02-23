@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserDto {
     private UUID id;
+    private boolean active;
     private String username;
     private Role role;
 }

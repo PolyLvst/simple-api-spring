@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -40,6 +41,18 @@ public class UserController {
         return new ResponseEntity<>(
                 userMapper.toDto(savedUser),
                 HttpStatus.CREATED
+        );
+    }
+
+    @PostMapping("/activate/{id}")
+    public ResponseEntity<UserDto> activateUser(
+            @PathVariable
+            UUID id
+    ) {
+        User activatedUser = userService.activateUser(id);
+        return new ResponseEntity<>(
+                userMapper.toDto(activatedUser),
+                HttpStatus.OK
         );
     }
 }
