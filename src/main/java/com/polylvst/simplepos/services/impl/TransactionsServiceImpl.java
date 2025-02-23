@@ -68,7 +68,7 @@ public class TransactionsServiceImpl implements TransactionService {
 
         getProduct.setStock(stock - quantity);
         // Update product
-        productService.updateProduct(getProduct, userId);
+        productService.updateProductObj(getProduct, userId);
         transactionRepository.save(newTransaction);
         return newTransaction;
     }
@@ -94,7 +94,7 @@ public class TransactionsServiceImpl implements TransactionService {
 
         getProduct.setStock(stock + quantity);
         // Update product
-        productService.updateProduct(getProduct, userId);
+        productService.updateProductObj(getProduct, userId);
         transactionRepository.save(transaction);
         return transaction;
     }

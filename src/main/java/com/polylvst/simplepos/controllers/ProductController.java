@@ -56,4 +56,21 @@ public class ProductController {
                 HttpStatus.NO_CONTENT
         );
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDto> updateProduct(
+            @PathVariable(required = true)
+            UUID id,
+            @Valid
+            @RequestBody
+            CreateProductRequest createProductRequest,
+            @RequestAttribute UUID userId
+    ) {
+        Product productToUpdate = productMapper.toEntity(createProductRequest);
+        Product updatedProduct = productService.updateProduct(productToUpdate, id, userId);
+        return new ResponseEntity<>(
+                productMapper.toDto(updatedProduct),
+                HttpStatus.OK
+        );
+    }
 }
