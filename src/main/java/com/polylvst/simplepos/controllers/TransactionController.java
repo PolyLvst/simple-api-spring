@@ -53,7 +53,7 @@ public class TransactionController {
         );
     }
 
-    @PostMapping("/{id}/refund")
+    @PostMapping("/{transactionId}/refund")
     public ResponseEntity<TransactionDto> refundTransaction(
             @PathVariable(required = true) UUID transactionId,
             @RequestAttribute UUID userId

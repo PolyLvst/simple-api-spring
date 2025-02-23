@@ -21,6 +21,6 @@ public class TransactionDto {
     private ProductDto product;
     private Integer quantity;
     private BigDecimal totalPrice;
-    private boolean isRefunded;
+    private boolean refunded;
     private LocalDateTime createdAt;
 }

@@ -60,7 +60,7 @@ public class TransactionsServiceImpl implements TransactionService {
                 .product(getProduct)
                 .quantity(transactionRequest.getQuantity())
                 .totalPrice(totalPrice)
-                .isRefunded(false)
+                .refunded(false)
                 .createdBy(userId)
                 .updatedBy(userId)
                 .cashier(loggedInUser)

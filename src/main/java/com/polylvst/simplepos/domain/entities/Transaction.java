@@ -35,7 +35,8 @@ public class Transaction {
     @Column(nullable = false)
     private BigDecimal totalPrice;
 
-    private boolean isRefunded;
+    @Column(nullable = false)
+    private boolean refunded;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -51,12 +52,12 @@ public class Transaction {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return isRefunded == that.isRefunded && Objects.equals(id, that.id) && Objects.equals(cashier, that.cashier) && Objects.equals(product, that.product) && Objects.equals(quantity, that.quantity) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createdAt, that.createdAt) && Objects.equals(createdBy, that.createdBy) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(updatedBy, that.updatedBy);
+        return refunded == that.refunded && Objects.equals(id, that.id) && Objects.equals(cashier, that.cashier) && Objects.equals(product, that.product) && Objects.equals(quantity, that.quantity) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(createdAt, that.createdAt) && Objects.equals(createdBy, that.createdBy) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(updatedBy, that.updatedBy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cashier, product, quantity, totalPrice, isRefunded, createdAt, createdBy, updatedAt, updatedBy);
+        return Objects.hash(id, cashier, product, quantity, totalPrice, refunded, createdAt, createdBy, updatedAt, updatedBy);
     }
 
     @PrePersist
