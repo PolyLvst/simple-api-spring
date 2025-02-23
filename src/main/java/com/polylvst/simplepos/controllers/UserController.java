@@ -47,9 +47,11 @@ public class UserController {
     @PostMapping("/activate/{id}")
     public ResponseEntity<UserDto> activateUser(
             @PathVariable
-            UUID id
+            UUID id,
+            @RequestAttribute UUID userId
     ) {
-        User activatedUser = userService.activateUser(id);
+        User loggedInUser = userService.findUserById(userId);
+        User activatedUser = userService.activateUser(id, loggedInUser);
         return new ResponseEntity<>(
                 userMapper.toDto(activatedUser),
                 HttpStatus.OK
