@@ -17,4 +17,4 @@ DELETE	/products/{id}	            Hapus produk	                            Admin
 
 GET	    /transactions/reports	    Laporan transaksi (dengan filter tanggal)	Admin & Kasir
 POST	/transactions	            Buat transaksi penjualan	                Admin & Kasir
-POST	/transactions/{id}/refund	Refund transaksi	                        Admin
+POST	/transactions/{id}/refund	Refund transaksi	                        Admin & Kasir

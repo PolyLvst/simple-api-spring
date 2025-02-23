@@ -30,6 +30,12 @@ public class TransactionsServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> listTransactions(LocalDateTime start, LocalDateTime end) {
+        if (start == null) {
+            start = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
+        }
+        if (end == null) {
+            end = LocalDateTime.now();
+        }
         return transactionRepository.findByCreatedAtBetween(start, end);
     }
 

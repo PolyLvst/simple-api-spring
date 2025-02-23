@@ -10,7 +10,6 @@ import com.polylvst.simplepos.services.TransactionService;
 import com.polylvst.simplepos.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/v1/transactions")
 @AllArgsConstructor
@@ -31,11 +29,10 @@ public class TransactionController {
 
     @GetMapping("/reports")
     public ResponseEntity<List<TransactionDto>> listTransactions(
-//            @RequestParam(value = "start", required = false) LocalDateTime start,
-//            @RequestParam(value = "end", required = false) LocalDateTime end
+            @RequestParam(required = false) LocalDateTime start,
+            @RequestParam(required = false) LocalDateTime end
     ) {
-//        List<TransactionDto> transactions = transactionService.listTransactions(start, end)
-        List<TransactionDto> transactions = transactionService.listTransactions()
+        List<TransactionDto> transactions = transactionService.listTransactions(start, end)
                 .stream()
                 .map(transaction -> transactionMapper.toDto(transaction))
                 .toList();
