@@ -43,8 +43,6 @@ public class TransactionsServiceImpl implements TransactionService {
     @Override
     @Transactional
     public Transaction createTransaction(CreateTransactionRequestDto transactionRequest, User user) {
-        Transaction newTransaction = new Transaction();
-
         UUID productId = transactionRequest.getProductId();
         Integer quantity = transactionRequest.getQuantity();
 
@@ -55,13 +53,15 @@ public class TransactionsServiceImpl implements TransactionService {
         }
         BigDecimal totalPrice = calculateCost(quantity, getProduct.getPrice());
 
-        newTransaction.setProduct(getProduct);
-        newTransaction.setQuantity(transactionRequest.getQuantity());
-        newTransaction.setTotalPrice(totalPrice);
-        newTransaction.setRefunded(false);
-        newTransaction.setCreatedBy(user.getId());
-        newTransaction.setUpdatedBy(user.getId());
-        newTransaction.setCashier(user);
+        Transaction newTransaction = Transaction.builder()
+                .product(getProduct)
+                .quantity(transactionRequest.getQuantity())
+                .totalPrice(totalPrice)
+                .isRefunded(false)
+                .createdBy(user.getId())
+                .updatedBy(user.getId())
+                .cashier(user)
+                .build();
 
         getProduct.setStock(stock - quantity);
         // Update product
