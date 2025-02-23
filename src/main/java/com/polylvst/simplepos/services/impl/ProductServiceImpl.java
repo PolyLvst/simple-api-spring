@@ -39,4 +39,9 @@ public class ProductServiceImpl implements ProductService {
     public Product findById(UUID id) {
         return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with  id "+id));
     }
+
+    @Override
+    public void deleteProduct(UUID id) {
+        productRepository.deleteById(id);
+    }
 }
