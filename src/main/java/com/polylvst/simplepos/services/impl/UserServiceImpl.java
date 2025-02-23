@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User activateUser(UUID id, User user) {
+    public User activateUser(UUID id, UUID userId) {
         User activatedUser = findUserById(id);
         activatedUser.setActive(true);
-        activatedUser.setUpdatedBy(user.getId());
+        activatedUser.setUpdatedBy(userId);
         userRepository.save(activatedUser);
         return activatedUser;
     }

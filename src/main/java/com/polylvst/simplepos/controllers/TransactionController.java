@@ -25,7 +25,6 @@ public class TransactionController {
 
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
-    private final UserService userService;
 
     @GetMapping("/reports")
     public ResponseEntity<List<TransactionDto>> listTransactions(
@@ -46,9 +45,8 @@ public class TransactionController {
             CreateTransactionRequest createTransactionRequest,
             @RequestAttribute UUID userId
     ) {
-        User loggedInUser = userService.findUserById(userId);
         CreateTransactionRequestDto createTransactionRequestDto = transactionMapper.toCreateTransaction(createTransactionRequest);
-        Transaction newTransaction = transactionService.createTransaction(createTransactionRequestDto, loggedInUser);
+        Transaction newTransaction = transactionService.createTransaction(createTransactionRequestDto, userId);
         return new ResponseEntity<>(
                 transactionMapper.toDto(newTransaction),
                 HttpStatus.CREATED
@@ -60,8 +58,7 @@ public class TransactionController {
             @PathVariable(required = true) UUID transactionId,
             @RequestAttribute UUID userId
     ) {
-        User loggedInUser = userService.findUserById(userId);
-        Transaction refundedTransaction = transactionService.refundTransaction(transactionId, loggedInUser);
+        Transaction refundedTransaction = transactionService.refundTransaction(transactionId, userId);
         return new ResponseEntity<>(
                 transactionMapper.toDto(refundedTransaction),
                 HttpStatus.OK

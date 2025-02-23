@@ -7,6 +7,7 @@ import com.polylvst.simplepos.domain.entities.User;
 import com.polylvst.simplepos.repositories.TransactionRepository;
 import com.polylvst.simplepos.services.ProductService;
 import com.polylvst.simplepos.services.TransactionService;
+import com.polylvst.simplepos.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class TransactionsServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final ProductService productService;
+    private final UserService userService;
 
     @Override
     public List<Transaction> listTransactions() {
@@ -42,9 +44,10 @@ public class TransactionsServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction createTransaction(CreateTransactionRequestDto transactionRequest, User user) {
+    public Transaction createTransaction(CreateTransactionRequestDto transactionRequest, UUID userId) {
         UUID productId = transactionRequest.getProductId();
         Integer quantity = transactionRequest.getQuantity();
+        User loggedInUser = userService.findUserById(userId);
 
         Product getProduct = productService.findById(productId);
         Integer stock = getProduct.getStock();
@@ -58,14 +61,14 @@ public class TransactionsServiceImpl implements TransactionService {
                 .quantity(transactionRequest.getQuantity())
                 .totalPrice(totalPrice)
                 .isRefunded(false)
-                .createdBy(user.getId())
-                .updatedBy(user.getId())
-                .cashier(user)
+                .createdBy(userId)
+                .updatedBy(userId)
+                .cashier(loggedInUser)
                 .build();
 
         getProduct.setStock(stock - quantity);
         // Update product
-        productService.updateProduct(getProduct, user);
+        productService.updateProduct(getProduct, userId);
         transactionRepository.save(newTransaction);
         return newTransaction;
     }
@@ -77,7 +80,7 @@ public class TransactionsServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public Transaction refundTransaction(UUID transactionId, User user) {
+    public Transaction refundTransaction(UUID transactionId, UUID userId) {
         Transaction transaction = findById(transactionId);
 
         UUID productId = transaction.getProduct().getId();
@@ -87,11 +90,11 @@ public class TransactionsServiceImpl implements TransactionService {
         Integer stock = getProduct.getStock();
 
         transaction.setRefunded(true);
-        transaction.setUpdatedBy(user.getId());
+        transaction.setUpdatedBy(userId);
 
         getProduct.setStock(stock + quantity);
         // Update product
-        productService.updateProduct(getProduct, user);
+        productService.updateProduct(getProduct, userId);
         transactionRepository.save(transaction);
         return transaction;
     }

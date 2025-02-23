@@ -23,15 +23,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product, User user) {
-        product.setCreatedBy(user.getId());
-        product.setUpdatedBy(user.getId());
+    public Product createProduct(Product product, UUID userId) {
+        product.setCreatedBy(userId);
+        product.setUpdatedBy(userId);
         return productRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(Product product, User user) {
-        product.setUpdatedBy(user.getId());
+    public Product updateProduct(Product product, UUID userId) {
+        product.setUpdatedBy(userId);
         return productRepository.save(product);
     }
 

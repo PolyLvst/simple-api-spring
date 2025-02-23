@@ -50,8 +50,7 @@ public class UserController {
             UUID id,
             @RequestAttribute UUID userId
     ) {
-        User loggedInUser = userService.findUserById(userId);
-        User activatedUser = userService.activateUser(id, loggedInUser);
+        User activatedUser = userService.activateUser(id, userId);
         return new ResponseEntity<>(
                 userMapper.toDto(activatedUser),
                 HttpStatus.OK

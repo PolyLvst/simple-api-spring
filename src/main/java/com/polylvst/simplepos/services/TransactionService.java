@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface TransactionService {
     List<Transaction> listTransactions();
     List<Transaction> listTransactions(LocalDateTime start, LocalDateTime end);
-    Transaction createTransaction(CreateTransactionRequestDto createTransactionRequestDto, User user);
+    Transaction createTransaction(CreateTransactionRequestDto createTransactionRequestDto, UUID userId);
     Transaction findById(UUID transactionId);
-    Transaction refundTransaction(UUID transactionId, User user);
+    Transaction refundTransaction(UUID transactionId, UUID userId);
 }
