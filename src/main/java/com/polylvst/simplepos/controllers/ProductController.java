@@ -3,8 +3,10 @@ package com.polylvst.simplepos.controllers;
 import com.polylvst.simplepos.domain.dtos.CreateProductRequest;
 import com.polylvst.simplepos.domain.dtos.ProductDto;
 import com.polylvst.simplepos.domain.entities.Product;
+import com.polylvst.simplepos.domain.entities.User;
 import com.polylvst.simplepos.mappers.ProductMapper;
 import com.polylvst.simplepos.services.ProductService;
+import com.polylvst.simplepos.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -19,6 +22,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final UserService userService;
     private final ProductMapper productMapper;
 
     @GetMapping
@@ -34,9 +38,12 @@ public class ProductController {
     public ResponseEntity<ProductDto> createProduct(
             @Valid
             @RequestBody
-            CreateProductRequest createProductRequest) {
+            CreateProductRequest createProductRequest,
+            @RequestAttribute UUID userId
+        ) {
+        User loggedInUser = userService.findUserById(userId);
         Product productToCreate = productMapper.toEntity(createProductRequest);
-        Product savedProduct = productService.createProduct(productToCreate);
+        Product savedProduct = productService.createProduct(productToCreate, loggedInUser);
         return new ResponseEntity<>(
                 productMapper.toDto(savedProduct),
                 HttpStatus.CREATED

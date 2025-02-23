@@ -1,6 +1,7 @@
 package com.polylvst.simplepos.services.impl;
 
 import com.polylvst.simplepos.domain.entities.Product;
+import com.polylvst.simplepos.domain.entities.User;
 import com.polylvst.simplepos.repositories.ProductRepository;
 import com.polylvst.simplepos.services.ProductService;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,7 +23,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) { return productRepository.save(product); }
+    public Product createProduct(Product product, User user) {
+        product.setCreatedBy(user.getId());
+        product.setUpdatedBy(user.getId());
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product updateProduct(Product product, User user) {
+        product.setUpdatedBy(user.getId());
+        return productRepository.save(product);
+    }
 
     @Override
     public Product findById(UUID id) {
