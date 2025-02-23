@@ -42,6 +42,10 @@ public class TransactionsServiceImpl implements TransactionService {
         Integer quantity = transactionRequest.getQuantity();
 
         Product getProduct = productService.findById(productId);
+        Integer stock = getProduct.getStock();
+        if (quantity > stock) {
+            throw new IllegalStateException("Cannot buy more than stock amount left: "+stock);
+        }
         BigDecimal totalPrice = calculateCost(quantity, getProduct.getPrice());
 
         newTransaction.setProduct(getProduct);
@@ -51,6 +55,8 @@ public class TransactionsServiceImpl implements TransactionService {
         newTransaction.setCreatedBy(user.getId());
         newTransaction.setCashier(user);
 
+        getProduct.setStock(stock - quantity);
+        productService.createProduct(getProduct);
         transactionRepository.save(newTransaction);
         return newTransaction;
     }

@@ -66,4 +66,14 @@ public class ErrorController {
                 .build();
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalStateException(IllegalStateException ex) {
+        log.error("Caught illegal state exception ", ex);
+        ApiErrorResponse error = ApiErrorResponse.builder()
+                .status(HttpStatus.CONFLICT.value())
+                .message(ex.getMessage()) // hati hati dengan message yang diberikan
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }
