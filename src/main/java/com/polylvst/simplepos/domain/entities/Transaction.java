@@ -42,6 +42,11 @@ public class Transaction {
 
     private UUID createdBy;
 
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    private UUID updatedBy;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -56,7 +61,14 @@ public class Transaction {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
 }

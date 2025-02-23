@@ -7,6 +7,7 @@ import com.polylvst.simplepos.domain.entities.User;
 import com.polylvst.simplepos.repositories.TransactionRepository;
 import com.polylvst.simplepos.services.ProductService;
 import com.polylvst.simplepos.services.TransactionService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,12 +60,40 @@ public class TransactionsServiceImpl implements TransactionService {
         newTransaction.setTotalPrice(totalPrice);
         newTransaction.setRefunded(false);
         newTransaction.setCreatedBy(user.getId());
+        newTransaction.setUpdatedBy(user.getId());
         newTransaction.setCashier(user);
 
         getProduct.setStock(stock - quantity);
+        // Update product
         productService.createProduct(getProduct);
         transactionRepository.save(newTransaction);
         return newTransaction;
+    }
+
+    @Override
+    public Transaction findById(UUID transactionId) {
+        return transactionRepository.findById(transactionId).orElseThrow(() -> new EntityNotFoundException("Transaction not found with id "+transactionId));
+    }
+
+    @Override
+    @Transactional
+    public Transaction refundTransaction(UUID transactionId, User user) {
+        Transaction transaction = findById(transactionId);
+
+        UUID productId = transaction.getProduct().getId();
+        Integer quantity = transaction.getQuantity();
+
+        Product getProduct = productService.findById(productId);
+        Integer stock = getProduct.getStock();
+
+        transaction.setRefunded(true);
+        transaction.setUpdatedBy(user.getId());
+
+        getProduct.setStock(stock + quantity);
+        // Update product
+        productService.createProduct(getProduct);
+        transactionRepository.save(transaction);
+        return transaction;
     }
 
     public BigDecimal calculateCost(Integer quantity, BigDecimal itemPrice)

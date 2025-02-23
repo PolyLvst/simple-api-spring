@@ -54,4 +54,17 @@ public class TransactionController {
                 HttpStatus.CREATED
         );
     }
+
+    @PostMapping("/{id}/refund")
+    public ResponseEntity<TransactionDto> refundTransaction(
+            @PathVariable(required = true) UUID transactionId,
+            @RequestAttribute UUID userId
+    ) {
+        User loggedInUser = userService.findUserById(userId);
+        Transaction refundedTransaction = transactionService.refundTransaction(transactionId, loggedInUser);
+        return new ResponseEntity<>(
+                transactionMapper.toDto(refundedTransaction),
+                HttpStatus.OK
+        );
+    }
 }
