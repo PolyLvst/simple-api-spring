@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User activateUser(UUID id, UUID userId) {
         User activatedUser = findUserById(id);
         activatedUser.setActive(true);

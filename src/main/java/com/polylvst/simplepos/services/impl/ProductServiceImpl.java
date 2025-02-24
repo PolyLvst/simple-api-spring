@@ -4,6 +4,7 @@ import com.polylvst.simplepos.domain.entities.Product;
 import com.polylvst.simplepos.repositories.ProductRepository;
 import com.polylvst.simplepos.services.ProductService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Product product, UUID id, UUID userId) {
         Product currentProduct = findById(id);
 
